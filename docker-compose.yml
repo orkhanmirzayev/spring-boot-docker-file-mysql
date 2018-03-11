@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  app:
+    build:
+        context: .
+        dockerfile: Dockerfile
+    image: test-image
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqltest:3306/dockerdb
+    ports:
+    - "8080:8080"
+    links:
+    - mysqldb
+    restart: always
+  mysqldb:
+    container_name: mysqltest
+    build: 
+       context: .
+       dockerfile: /db-dump/Dockerfile
+    ports:
+       - "3306:3306"
+    restart: always
